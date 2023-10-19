@@ -1,0 +1,6 @@
+{
+	"files.exclude": {
+		"restore/*.js": true,
+		"save/*.js": true
+	}
+}

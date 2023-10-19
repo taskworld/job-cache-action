@@ -1,0 +1,31 @@
+{
+  "name": "job-cache-action",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "esbuild restore/*.ts --bundle --minify --platform=node --outdir=restore && esbuild save/*.ts --bundle --minify --platform=node --outdir=save",
+    "prepare": "cp ./pre-commit.sh .git/hooks/pre-commit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taskworld/job-cache-action.git"
+  },
+  "author": "Anantachai Saothong",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/taskworld/job-cache-action/issues"
+  },
+  "homepage": "https://github.com/taskworld/job-cache-action#readme",
+  "volta": {
+    "node": "20.8.1"
+  },
+  "dependencies": {
+    "@actions/cache": "^3.2.2",
+    "@actions/core": "^1.10.1",
+    "@actions/github": "^6.0.0",
+    "@types/node": "^20.0.0",
+    "esbuild": "^0.19.5",
+    "lodash": "^4.17.21",
+    "mkdirp": "^3.0.1",
+    "typescript": "^5.2.2"
+  }
+}
