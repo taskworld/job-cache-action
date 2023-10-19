@@ -8,11 +8,11 @@ import { mkdirp } from 'mkdirp'
 const resultFilePath = '/tmp/result.json'
 
 async function run() {
-	const status = core.getInput('job-status')
+	const status = core.getInput('job-status', { required: true })
 	console.log('status =', status)
 
 	if (status === 'success' || status === 'failure') {
-		const api = github.getOctokit(core.getInput('github-token'))
+		const api = github.getOctokit(core.getInput('github-token'), { required: true })
 
 		const { data: { jobs } } = await api.rest.actions.listJobsForWorkflowRun({
 			...github.context.repo,
@@ -37,7 +37,10 @@ async function run() {
 		await mkdirp(path.dirname(resultFilePath))
 		await fs.writeFile(resultFilePath, JSON.stringify(result), 'utf-8')
 
-		await cache.saveCache([resultFilePath], core.getInput('cache-key'))
+		await cache.saveCache(
+			[resultFilePath, ...core.getMultilineInput('files')],
+			core.getInput('cache-key', { required: true })
+		)
 
 		console.log(`Job status has been cached.`)
 	} else {

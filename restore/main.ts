@@ -4,9 +4,13 @@ import * as cache from '@actions/cache'
 const resultFilePath = '/tmp/result.json'
 
 async function run() {
-	core.setOutput('cache-key', core.getInput('cache-key'))
+	const cacheKey = core.getInput('cache-key', { required: true })
+	core.setOutput('cache-key', cacheKey)
 
-	const cacheHit = !!(await cache.restoreCache([resultFilePath], core.getInput('cache-key')))
+	const cacheHit = Boolean(await cache.restoreCache(
+		[resultFilePath, ...core.getMultilineInput('files')],
+		cacheKey
+	))
 	console.log('cache-hit =', cacheHit)
 	core.setOutput('cache-hit', cacheHit)
 

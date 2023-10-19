@@ -1,23 +1,24 @@
 name: Job Status Restoration Action
 
-description: Cache job status
+description: Restore job status
 
 inputs:
   cache-key:
+    description: a unique key for the cache
     required: true
     type: string
 
-  github-token:
+  files:
+    description: a list of additional files or directories to be restored
     required: false
     type: string
-    default: ${{ github.token }}
 
 outputs:
   cache-key:
-    description: a cache key
+    description: an pass-through cache-key from the input
 
   cache-hit:
-    description: whether the job status cache is restored or not
+    description: whether the job status is restored or not
 
 runs:
   using: node20

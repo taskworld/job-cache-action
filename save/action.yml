@@ -1,19 +1,21 @@
-name: Job Cache Saving Action
+name: Job Status Saving Action
 
 description: Cache job status
 
 inputs:
   cache-key:
-    required: true
+    description: a unique key for the cache
+    type: string
+
+  files:
+    description: a list of additional files or directories to be cached
     type: string
 
   job-status:
-    required: false
     type: string
     default: ${{ job.status }}
 
   github-token:
-    required: false
     type: string
     default: ${{ github.token }}
 
