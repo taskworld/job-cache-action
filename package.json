@@ -1,6 +1,6 @@
 {
   "name": "job-cache-action",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "scripts": {
     "build": "esbuild restore/*.ts --bundle --minify --platform=node --outdir=restore && esbuild save/*.ts --bundle --minify --platform=node --outdir=save",
     "prepare": "cp ./pre-commit.sh .git/hooks/pre-commit"
