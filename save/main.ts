@@ -11,6 +11,7 @@ async function run() {
 	const status = core.getInput('job-status', { required: true })
 	console.log('status =', status)
 
+	// Do not save `cancelled` job status as it is inconclusive
 	if (status === 'success' || status === 'failure') {
 		const api = github.getOctokit(core.getInput('github-token'), { required: true })
 
