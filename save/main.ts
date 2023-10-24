@@ -8,6 +8,7 @@ import { mkdirp } from 'mkdirp'
 const resultFilePath = '/tmp/result.json'
 
 async function run() {
+	
 	const status = core.getInput('job-status', { required: true })
 	console.log('status =', status)
 
@@ -24,15 +25,13 @@ async function run() {
 			return { data: { jobs: [] } }
 		})
 
-		// Do not use `job.steps[*].conclusion` from GitHub API as it does not reflect the latest step progress.
-		const job = jobs.find(job => job.name === github.context.job)
-		if (!job) {
-			core.warning(`Could not resolve job ID from job name "${github.context.job}".`)
-		}
+		// Do not match `job.name` as it can be different in matrix
+		const job = jobs.find(job => job.runner_name === process.env.RUNNER_NAME)
+		core.debug('job = ' + JSON.stringify(job, null, 2))
 
 		const result = {
-			status,
-			url: `${github.context.serverUrl}/${github.context.repo.owner}/${github.context.repo.repo}/actions/runs/${github.context.runId}` + (job ? `/job/${job.id}` : ''),
+			status, // Do not use `job.steps[*].conclusion` from GitHub API as it does not reflect the most recent progress.
+			url: job?.html_url || `${github.context.serverUrl}/${github.context.repo.owner}/${github.context.repo.repo}/actions/runs/${github.context.runId}`,
 		}
 
 		await mkdirp(path.dirname(resultFilePath))

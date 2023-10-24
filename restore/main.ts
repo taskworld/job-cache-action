@@ -18,10 +18,12 @@ async function run() {
 		const result = require(resultFilePath)
 		console.log('status =', result.status)
 
+		const ending = result.url ? (' at ' + result.url) : ' previously.'
+
 		if (result.status === 'failure') {
-			core.setFailed('This job has failed at ' + result.url)
+			core.setFailed('This job has failed' + ending)
 		} else {
-			core.info('This job has succeeded at ' + result.url)
+			core.info('This job has succeeded' + ending)
 		}
 	}
 }
