@@ -4,14 +4,14 @@ import * as cache from '@actions/cache'
 const resultFilePath = '/tmp/result.json'
 
 async function run() {
+	const cacheKey = core.getInput('cache-key', { required: true })
+	core.setOutput('cache-key', cacheKey)
+
 	if (core.isDebug()) {
 		core.info('Skipped restoring job status cache because debug logging was enabled.')
 		core.setOutput('cache-hit', false)
 		return
 	}
-
-	const cacheKey = core.getInput('cache-key', { required: true })
-	core.setOutput('cache-key', cacheKey)
 
 	const cacheHit = Boolean(await cache.restoreCache(
 		[resultFilePath, ...core.getMultilineInput('files')],
