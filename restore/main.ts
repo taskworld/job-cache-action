@@ -4,6 +4,12 @@ import * as cache from '@actions/cache'
 const resultFilePath = '/tmp/result.json'
 
 async function run() {
+	if (core.isDebug()) {
+		core.info('Skipped restoring job status cache because debug logging was enabled.')
+		core.setOutput('cache-hit', false)
+		return
+	}
+
 	const cacheKey = core.getInput('cache-key', { required: true })
 	core.setOutput('cache-key', cacheKey)
 
@@ -25,6 +31,9 @@ async function run() {
 		} else {
 			core.info('This job has succeeded' + ending)
 		}
+
+		core.info('If you want to bypass job status cache, please re-run this job with debug logging enabled.')
+		core.info('See https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/enabling-debug-logging')
 	}
 }
 
